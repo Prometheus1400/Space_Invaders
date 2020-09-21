@@ -1,19 +1,26 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <ctime>
 #include <SFML/Graphics.hpp>
-#include "classes.h"
+#include "classes/spaceship.h"
+#include "classes/laser.h"
+#include "classes/enemy.h"
 
 int main() {
+    srand(time(0));
     int shipMoveSpeed = 4;
     int sizeScreen = 2000;
     sf::RenderWindow window(sf::VideoMode(sizeScreen, sizeScreen), "Level 1");
-    // define a triangle
-    sf::Texture textureShip, textureLaser;
+    // load textures
+    sf::Texture textureShip, textureLaser, textureEnemy;
     textureShip.loadFromFile("textures/spaceship.png");
-    textureLaser.loadFromFile("textures/laser2.png");
+    textureLaser.loadFromFile("textures/laser3.png");
+    textureEnemy.loadFromFile("textures/enemy.png");
+    // declare classes
     Spaceship spaceship(shipMoveSpeed,sizeScreen,&textureShip);
-    Laser laser;
-    laser.setTexture(textureLaser);
+    Laser laser(&textureLaser);
+    Enemy enemy(sizeScreen, &textureEnemy);
 
     while (window.isOpen())
     {
@@ -35,14 +42,23 @@ int main() {
              // left key is pressed: move our character
             laser.fire(spaceship.getPosition().x,spaceship.getPosition().y);
         }
-        laser.update();
-        window.clear();
-        if (laser.active) {
-            window.draw(laser);
+
+        // detect collision
+        if(laser.getGlobalBounds().intersects(enemy.getGlobalBounds())) {
+            laser.kill();
+            enemy.kill();
         }
+
+        // updates moving objects
+        laser.update();
+        enemy.update();
+        // clears the screen for clean draw
+        window.clear();
+        // draws the objects
+        window.draw(laser);
         window.draw(spaceship);
+        window.draw(enemy);
         window.display();
     }
-
     return 0;
 }
