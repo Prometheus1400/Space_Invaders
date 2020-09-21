@@ -1,14 +1,17 @@
 class Laser: public sf::Sprite {
-    float speed = 15;
 public:
+    // attributes
+    float speed;
     bool active;
-    Laser(sf::Texture *texture) {
-        setTexture(*texture);
+    // Constructor
+    Laser(float laserSpeed, sf::Texture *texture) {
+        speed = laserSpeed;
         active = false;
+        setTexture(*texture);
         setScale(0.5f,0.2f);
         kill();
     }
-
+    // other methods
     void kill() {
         active = false;
         setPosition(-500.f,-500.f);
@@ -18,7 +21,6 @@ public:
         if (!active) {
             setPosition(x+65.f,y-20);
             active = true;
-
         }
     }
     void update() {

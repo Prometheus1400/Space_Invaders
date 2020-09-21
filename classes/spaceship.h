@@ -1,6 +1,8 @@
 class Spaceship: public sf::Sprite {
-    float moveSpeed;
 public:
+    // attributes
+    float moveSpeed;
+    // Constructor
     Spaceship(float speed, int sizeScreen, sf::Texture *texture) {
         moveSpeed = speed;
         setTexture(*texture);
@@ -8,6 +10,7 @@ public:
         setPosition(sizeScreen/2.0f,sizeScreen*0.89f);
 
     }
+    // other methods
     void left() {
         if (getPosition().x > 0) {
             move(-moveSpeed,0.f);

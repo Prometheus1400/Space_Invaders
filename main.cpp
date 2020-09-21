@@ -9,8 +9,10 @@
 
 int main() {
     srand(time(0));
-    int shipMoveSpeed = 4;
-    int sizeScreen = 2000;
+    int sizeScreen       = 2000;
+    float userMoveSpeed  = 4;
+    float enemyMoveSpeed = 1;
+    float laserMoveSpeed = 12.5;
     sf::RenderWindow window(sf::VideoMode(sizeScreen, sizeScreen), "Level 1");
     // load textures
     sf::Texture textureShip, textureLaser, textureEnemy;
@@ -18,9 +20,10 @@ int main() {
     textureLaser.loadFromFile("textures/laser3.png");
     textureEnemy.loadFromFile("textures/enemy.png");
     // declare classes
-    Spaceship spaceship(shipMoveSpeed,sizeScreen,&textureShip);
-    Laser laser(&textureLaser);
-    Enemy enemy(sizeScreen, &textureEnemy);
+    Spaceship spaceship(userMoveSpeed,sizeScreen,&textureShip);
+    Laser laser(laserMoveSpeed, &textureLaser);
+    Enemy enemy(enemyMoveSpeed, sizeScreen, &textureEnemy);
+    Enemy enemy2(enemyMoveSpeed, sizeScreen, &textureEnemy); //TEST
 
     while (window.isOpen())
     {
@@ -48,16 +51,23 @@ int main() {
             laser.kill();
             enemy.kill();
         }
+        // Test
+        if(laser.getGlobalBounds().intersects(enemy2.getGlobalBounds())) {
+            laser.kill();
+            enemy2.kill();
+        }
 
         // updates moving objects
         laser.update();
         enemy.update();
+        enemy2.update();//Test
         // clears the screen for clean draw
         window.clear();
         // draws the objects
         window.draw(laser);
         window.draw(spaceship);
         window.draw(enemy);
+        window.draw(enemy2);//Test
         window.display();
     }
     return 0;
