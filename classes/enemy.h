@@ -11,7 +11,7 @@ public:
     }
     // other methods
     void kill() {
-    	setPosition(rand()%1700,-400.f);
+    	setPosition(rand()%1700,-(rand()%500)-400.f);
     }
 
     void update() {

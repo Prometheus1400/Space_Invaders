@@ -3,12 +3,14 @@ public:
     // attributes
     float speed;
     bool active;
+    sf::Sound sound;
     // Constructor
-    Laser(float laserSpeed, sf::Texture *texture) {
+    Laser(float laserSpeed, sf::Texture *texture, sf::SoundBuffer *buffer) {
         speed = laserSpeed;
         active = false;
         setTexture(*texture);
         setScale(0.5f,0.2f);
+        sound.setBuffer(*buffer);
         kill();
     }
     // other methods
@@ -21,6 +23,7 @@ public:
         if (!active) {
             setPosition(x+65.f,y-20);
             active = true;
+            sound.play();
         }
     }
     void update() {
