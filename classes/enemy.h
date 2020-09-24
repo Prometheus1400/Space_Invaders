@@ -16,7 +16,7 @@ public:
 
     void update() {
     	move(0.f,moveSpeed);
-    	if(getPosition().y > 1700) {
+    	if(getPosition().y > 1900) {
     		kill();
     	}
     }
